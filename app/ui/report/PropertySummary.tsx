@@ -29,23 +29,19 @@ export default function PropertySummary (props:{property: {
   const p = props.property
   const favoriteRef = useRef(null)
  
-  function calculateColor(favorite: boolean){
-     let c = 'disabled'
+  function calculateColor(favorite: boolean): "disabled" | "success"{
       if (favorite){
-        c = 'success'
+        return 'success'
       }
-      return c
+      return 'disabled'
   }
-  let choosenColor = calculateColor(p.is_favorite);
+  const choosenColor = calculateColor(p.is_favorite);
  
   const [color, setColor] = useState(choosenColor)
 
   async function updateFavorite(){
-    let result = await set_as_favorite(p.id)
-    let c = calculateColor(result.favorite)
-    
-    setColor(c)
-
+    const result = await set_as_favorite(p.id)
+     setColor(calculateColor(result.favorite))
   }
 
   return (

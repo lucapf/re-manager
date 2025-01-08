@@ -10,7 +10,7 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
 import TopNav from "@/app/ui/topnav"
-import {Toaster, toast} from 'sonner'
+import {Toaster } from 'sonner'
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -30,7 +30,7 @@ export default function RootLayout({
       <body >
         <Stack spacing={2} sx={{  width: '100%', alignItems: 'center'}}>
           <TopNav/>
-          <Toaster position="top-right" expand="true" richColors/>
+          <Toaster position="top-right" expand={true} richColors/>
           {children}
           </Stack>
           

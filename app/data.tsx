@@ -69,15 +69,6 @@ export async function getSupportedTypes():Promise<string[]> {
 }
 
 
-export async function relevantByCommunity( community: string){
-  const client = new Client()
-  await client.connect()
-  const relevant = await client.query("select count(*) as count from report_propertyfinder where score < 0 and community = $1", [community])
-  const favorites= await client.query("select count(*) as count from propertyfinder where favorite = true  and community = $1", [community])  
-  await client.end()
-  return  [ favorites.rows[0].count , relevant.rows[0].count]
-}
-
 
 
 export async function salesByCommunity(master_project: string) {
@@ -168,23 +159,34 @@ const PROPERTY_SUMMARY_SELECT=`
        p.price_sqft as price_sqft,
        p.listed_date as listed_date,
        p.favorite as is_favorite
-    from 
-      propertyfinder p join report_propertyfinder r on r.propertyfinder_id = p.id 
-    where 
 ` 
-const PROPERTY_SUMMARY_ORDER_BY=`
-      and score < 0
-    order by score asc 
-`
+const PROPERTY_SUMMARY_FROM=` from propertyfinder p join report_propertyfinder r on r.propertyfinder_id = p.id `
+const PROPERTY_SUMMARY_WHERE=`where score < 0  and user_discarded=false`
+const PROPERTY_SUMMARY_ORDER_BY=` order by score asc `
+
+export async function relevantByCommunity( community: string){
+  const client = new Client()
+  await client.connect()
+  const relevant = await client.query(`select count(*) as count 
+                                      ${PROPERTY_SUMMARY_FROM} 
+                                      ${PROPERTY_SUMMARY_WHERE} and p.community = $1`, [community])
+  const favorites= await client.query(`select count(*) as count 
+                                      ${PROPERTY_SUMMARY_FROM} 
+                                      ${PROPERTY_SUMMARY_WHERE} and p.favorite = true  and p.community = $1`, [community])  
+  await client.end()
+  return  [ favorites.rows[0].count , relevant.rows[0].count]
+}
+
+
 export async function getPropertySummaryData(community: string, bedrooms: string ){
   const client = new Client()
   await client.connect()
   const values = await client.query(`
       ${PROPERTY_SUMMARY_SELECT}
-          p.community= $1 
+      ${PROPERTY_SUMMARY_FROM}
+      and  p.community= $1 
       and bedrooms = $2 
-      and user_discarded=false
-      ${PROPERTY_SUMMARY_ORDER_BY}`, 
+      ${PROPERTY_SUMMARY_WHERE} ${PROPERTY_SUMMARY_ORDER_BY}`, 
     [community, bedrooms])
     console.log (`found ${values.rowCount} properties`)
   await client.end()
@@ -195,9 +197,9 @@ export async function getPropertySummaryDataFavorite( ){
   await client.connect()
   const values = await client.query(`
       ${PROPERTY_SUMMARY_SELECT}
-          p.favorite = true
-      and p.user_discarded=false
-      ${PROPERTY_SUMMARY_ORDER_BY}`)
+      ${PROPERTY_SUMMARY_FROM}
+      and p.favorite = true
+     ${PROPERTY_SUMMARY_WHERE}  ${PROPERTY_SUMMARY_ORDER_BY}`)
     console.log (`found ${values.rowCount} properties`)
   await client.end()
   return values.rows;

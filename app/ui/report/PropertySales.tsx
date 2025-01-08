@@ -11,12 +11,12 @@ import {formatPercentageNoDigit,
         formatDate, 
         formatInteger} from '@/public/util.js' 
 
-export default async function PropertySales(props: {id: string, spike: string, threshold: number}){
+export default async function PropertySales(props: {ad_id: string, spike: boolean, threshold: number}){
   const spike = props.spike
   console.log(`value for spike: ${spike}`)
   const sales = await ReportSalesData(props.ad_id,spike)
   let title = "Sale Transactions"
-  if (props.spike == "true"){
+  if (props.spike){
     title = "Spikes"
   }
   title +=` (threshold: ${formatPercentageNoDigit(Number(props.threshold)/100)}, `

@@ -34,7 +34,7 @@ export default async function Home() {
         ))}
         </Stack>
         <Stack>
-        <PropertyCard favorites="true" property_type="Favorites"/>
+        <PropertyCard favorites="true"  property_type="Favorites"/>
         </Stack>
     </Stack>
   );

@@ -2,22 +2,25 @@ import { getPropertySummaryData, getPropertySummaryDataFavorite} from "@/app/dat
 import  PropertySummary from "@/app/ui/report/PropertySummary"
 import  PropertyStats from "@/app/ui/report/PropertyStats"
 import  PropertySales from "@/app/ui/report/PropertySales"
-import {  Divider,  Stack,  Link } from "@mui/joy"
-import {stringify_property_type,to_anchor } from '@/public/util.js'
+import {  Divider,  Stack  } from "@mui/joy"
+import {stringify_property_type} from '@/public/util.js'
 import Typography from '@mui/material/Typography';
 
 
-export default async function PropertyCard(props: {community: string, 
-                                                   property_type: string, 
-                                                   spike_threshold: number, 
-                                                   threshold: number,
-                                                   favorites: string
+export default async function PropertyCard(props: {community?: string, 
+                                                   property_type?: string, 
+                                                   spike_threshold?: number, 
+                                                   threshold?: number,
+                                                   favorites?: string
                                                   }) {
-  console.log(`community: ${typeof props.property_id ==='undefined'}`)
-  var properties = 'undefined'
-  if (typeof props.favorites ==='undefined'){
+  let properties
+  let threshold = props.threshold
+  if (typeof threshold === 'undefined'){
+    threshold = 0 
+  }
+  if (typeof props.favorites ==='undefined' && typeof props.community != 'undefined' && typeof props.property_type !='undefined'){
    properties = await getPropertySummaryData(props.community, props.property_type.trim())
-  }else{
+  }else{ 
    properties = await getPropertySummaryDataFavorite()
   }
   return (
@@ -33,7 +36,7 @@ export default async function PropertyCard(props: {community: string,
            <Stack key={key} id={key}>
             <PropertySummary  property={p}/> 
             <PropertyStats id={p.id} />
-            <PropertySales ad_id={p.id} spike="false" threshold={props.threshold}/>
+            <PropertySales ad_id={p.id} spike={false} threshold={threshold}/>
             <Divider/>
            </Stack>
            )}) }

@@ -1,21 +1,17 @@
 import * as React from 'react';
-import { Badge, Box, Divider, Typography } from '@mui/material';
+import {  Divider, Typography } from '@mui/material';
 import Card  from '@mui/joy/Card'
-import CardCover from '@mui/joy/CardCover'
 import CardContent from '@mui/joy/CardContent'
 import CardActions from '@mui/material/CardActions'
-import Stack from '@mui/joy/Stack';
 import Grid from '@mui/material/Grid2';
 import Button from '@mui/material/Button';
 import { relevantByCommunity } from '@/app/data';
-import  FavoriteIcon  from '@mui/icons-material/Favorite';
-import StarsIcon from '@mui/icons-material/Stars';
 import Image from 'next/image'
 
 export async function SummaryAreaCard(props: {name: string, image: string, 
                                               master_project: string, community: string}) {
   const community = props.community
-  const [favorites_values, relevant]  = await relevantByCommunity(community)
+  const [favorites,total]  = await relevantByCommunity(community)
   const report_url = `/report/${props.community}`
   return (
       <Card variant="outlined" sx={{maxWidth: 300, width: 300 }}>
@@ -38,7 +34,7 @@ export async function SummaryAreaCard(props: {name: string, image: string,
             </Grid>
             <Grid size={2}>
                 <Typography variant='h6' >
-                  {favorites_values} 
+                  {favorites} 
                 </Typography> 
             </Grid>
 
@@ -49,7 +45,7 @@ export async function SummaryAreaCard(props: {name: string, image: string,
             </Grid>
            <Grid size={2}>
                 <Typography variant='h6'>
-                  {favorites_values} 
+                  {total} 
                 </Typography> 
             </Grid>
 

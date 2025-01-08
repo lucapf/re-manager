@@ -57,6 +57,7 @@ export default  async function Home(context: { params: Params }){
                   property_type={t} 
                   spike_threshold={thresholdSpikes} 
                   threshold={deltaperc}
+                  favorites="all"
                 />
              </TabPanel>
      )})}

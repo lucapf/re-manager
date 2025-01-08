@@ -8,7 +8,7 @@ export async function delete_ad(ad_id ){
     const response = await fetch(deleteRequest);
     if (response.status === 200){
       var elementid = `Summary_${ad_id}`
-      var node = document.getElementById(elementid).style.display = "none"
+      document.getElementById(elementid).style.display = "none"
       
     }
       console.log(`response: ${response.status}`);
