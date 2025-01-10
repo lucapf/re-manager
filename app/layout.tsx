@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 import Stack from '@mui/joy/Stack';
+import Box from '@mui/joy/Box';
 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -31,7 +32,9 @@ export default function RootLayout({
         <Stack spacing={2} sx={{  width: '100%', alignItems: 'center'}}>
           <TopNav/>
           <Toaster position="top-right" expand={true} richColors/>
+          <Box sx={{paddingLeft:3}}>
           {children}
+          </Box>
           </Stack>
           
       </body>

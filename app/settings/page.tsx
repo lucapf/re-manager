@@ -10,7 +10,7 @@ import {getStringConfigurationItem} from "@/app/data"
 async function WriteItem(props:{config_key:string, type: 'text'| 'number'}){
  const values = await getStringConfigurationItem(props.config_key) 
  return (<ConfigItem 
-             key={props.config_key} 
+             config_key={props.config_key} 
              type={props.type}
              string_value={values.str_value}
              int_value={values.int_value}

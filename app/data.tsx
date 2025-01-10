@@ -146,17 +146,15 @@ export async function getReportStatsByType(community: string){
   return map
 }
 
-export async function saveConfigValue(key:string, type:'text'|'number', value:string){
+export async function saveConfigValue(current_key:string, type:'text'|'number', value:string){
   const client = new Client()
  await client.connect()
-  if (type==='text'){
-      await client.query(`update configuration set int_value=$1 where key=$2`,[key.trim(), value])
-
-  }else if(!isNaN(value)) {
-      await client.query(`update configuration set str_value=$1 where key=$2`,[key.trim(), value])
+  if (type==='number'){
+      await client.query(`update configuration set int_value=$1 where key=$2`,[value, current_key.trim()])
+  }else if(type ==='text') {
+      await client.query(`update configuration set str_value=$1 where key=$2`,[value, current_key.trim()])
   }else{
     throw "not valid type";
-
   }
   await client.end()
 }
@@ -190,10 +188,10 @@ const PROPERTY_SUMMARY_ORDER_BY=` order by score asc `
 export async function relevantByCommunity( community: string){
   const client = new Client()
   await client.connect()
-  const relevant = await client.query(`select count(*) as count 
+  const relevant = await client.query(`select count(distinct p.id) as count 
                                       ${PROPERTY_SUMMARY_FROM} 
                                       ${PROPERTY_SUMMARY_WHERE} and p.community = $1`, [community])
-  const favorites= await client.query(`select count(*) as count 
+  const favorites= await client.query(`select count(distinct p.id) as count 
                                       ${PROPERTY_SUMMARY_FROM} 
                                       ${PROPERTY_SUMMARY_WHERE} and p.favorite = true  and p.community = $1`, [community])  
   await client.end()

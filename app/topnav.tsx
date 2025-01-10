@@ -1,3 +1,4 @@
+'use client'
 import {  Stack } from '@mui/joy';
 import { Box, Button} from '@mui/material';
 import AppBar from '@mui/material/AppBar';
@@ -26,34 +27,4 @@ export default function TopBar() {
 
       )
 }
-
-
-    //<Stack width='100%' spacing={4} direction = "row" sx={{backgroundColor: 'white',color:'black'}}>
-    //             <Button>Home</Button> 
-    //             <Button>Dubai Marina</Button>
-    //             <Button>JLT</Button>
-    //          </Box><Box>
-    //             <Button>Settings</Button>
-    //             </Box>
-    //        </Stack>
-
-//<Box 
-//      sx={{ minHeight: '40px', height: '70px' , width: '100%', 
-//            background: 'blue', alignContent: 'center'
-//            }}>
-//      <Stack direction={"row"} spacing={2} sx={{ marginLeft: "30px"}} >
-//      <Button sx={{
-//                    marginLeft: "20px", color:'white', borderStyle: "solid", 
-//                    maxWidth: "130px", minWidth: "130px",
-//                    borderColor: 'whilte', borderWidth: '1px'}} 
-//                    href="/" >
-//          Home</Button>
-//        <Button sx={{
-//                    marginLeft: "20px", color:'white', borderStyle: "solid", 
-//                    maxWidth: "150px",minWidth: "130px",
-//                    borderColor: 'whilte', borderWidth: '1px'}} 
-//                    href="/" >
-//          Report</Button>
-//      </Stack> 
-//</Box>
 
