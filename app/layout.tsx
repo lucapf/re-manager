@@ -9,7 +9,7 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
-import TopNav from "@/app/ui/topnav"
+import TopNav from "@/app/topnav"
 import {Toaster } from 'sonner'
 
 export const metadata: Metadata = {

@@ -1,7 +1,7 @@
 import {toast} from 'sonner'
 
 export async function delete_ad(ad_id ){
-  const deleteRequest = new Request("/ads", {
+  const deleteRequest = new Request("/api/ads", {
       method: "DELETE",
       body: JSON.stringify({id: ad_id})
     });
@@ -20,7 +20,7 @@ export async function delete_ad(ad_id ){
   }
 
 export async function set_as_favorite(ad_id ){
-  const update_ad= new Request("/ads/favorite", {
+  const update_ad= new Request("/api/ads/favorite", {
       method: "PATCH",
       body: JSON.stringify({id: ad_id})
     });

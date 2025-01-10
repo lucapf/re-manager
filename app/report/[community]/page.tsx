@@ -1,5 +1,5 @@
 'use server'
-import PropertyCard from '@/app/ui/dashboard/PropertyCard';
+import PropertyCard from '@/app/dashboard/PropertyCard';
 import {getReportStatsByType, getSupportedTypes, getConfigIntValue}  from '@/app/data'
 import {Stack} from '@mui/joy'
 import Tabs from '@mui/joy/Tabs';

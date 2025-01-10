@@ -1,7 +1,7 @@
 import { getPropertySummaryData, getPropertySummaryDataFavorite} from "@/app/data";
-import  PropertySummary from "@/app/ui/report/PropertySummary"
-import  PropertyStats from "@/app/ui/report/PropertyStats"
-import  PropertySales from "@/app/ui/report/PropertySales"
+import  PropertySummary from "@/app/report/PropertySummary"
+import  PropertyStats from "@/app/report/PropertyStats"
+import  PropertySales from "@/app/report/PropertySales"
 import {  Divider,  Stack  } from "@mui/joy"
 import {stringify_property_type} from '@/public/util.js'
 import Typography from '@mui/material/Typography';

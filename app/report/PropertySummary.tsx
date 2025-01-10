@@ -8,7 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import {
   formatCurrencyNoDec, formatCurrency, 
   formatInteger, formatDate } from '@/public/util.js';
-import { delete_ad,set_as_favorite } from '@/app/ui/report/updateAds'
+import { delete_ad,set_as_favorite } from '@/app/report/updateAds'
 import { useRef } from 'react'
 import { useState} from 'react'
 

@@ -146,6 +146,29 @@ export async function getReportStatsByType(community: string){
   return map
 }
 
+export async function saveConfigValue(key:string, type:'text'|'number', value:string){
+  const client = new Client()
+ await client.connect()
+  if (type==='text'){
+      await client.query(`update configuration set int_value=$1 where key=$2`,[key.trim(), value])
+
+  }else if(!isNaN(value)) {
+      await client.query(`update configuration set str_value=$1 where key=$2`,[key.trim(), value])
+  }else{
+    throw "not valid type";
+
+  }
+  await client.end()
+}
+
+export async function getStringConfigurationItem(key:string){
+  const client = new Client()
+  await client.connect()
+  const values = await client.query(`select  int_value, str_value, description, label, min, max from configuration where key=$1`,[key.trim()])
+  await client.end()
+  return values.rows[0] 
+}
+
 const PROPERTY_SUMMARY_SELECT=`
     select distinct 
        p.id as id,
