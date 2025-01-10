@@ -12,12 +12,13 @@ export default function ConfigItem(props:{config_key:string, type:'text'|'number
                                     label: string, description:string}){
 let c = props.string_value
  if (props.type ==='number') {
-   c = props.int_value
+   c = props.int_value.toString()
  }
-
+const current_type = props.type
+const current_key = props.config_key
  const [current_value, setCurrentValue] = useState(c)
- const [current_type, setCurrentType] = useState(props.type)
- const [current_key, setCurrentKey] = useState(props.config_key)
+ //const [current_type, setCurrentType] = useState(props.type)
+ //const [current_key, setCurrentKey] = useState(props.config_key)
 
 function save(){
   console.log(`function save: key: ${current_key} type: ${current_type} value: ${current_value}`)
@@ -30,11 +31,6 @@ function save(){
     }
   })
 
-  function changeValue(this){
-    alert(this.value)
-  }
-    
-  
 } 
   return (
    <>
