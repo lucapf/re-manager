@@ -1,12 +1,12 @@
-import  "@/app/globals.css";
+import  "@/app/ui/globals.css";
 import  { 
           countPulseTransaction, 
           countPropertyfinderTransaction, 
           supportedAreas
         } from '@/app/data';
-import PropertyCard from '@/app/dashboard/PropertyCard';
-import  {SingleValueCard} from "@/app/dashboard/SingleValueCard";
-import  {SummaryAreaCard} from "@/app/dashboard/SummaryAreaCard";
+import PropertyCard from '@/app/ui/dashboard/PropertyCard';
+import  {SingleValueCard} from "@/app/ui/dashboard/SingleValueCard";
+import  {SummaryAreaCard} from "@/app/ui/dashboard/SummaryAreaCard";
 import  Stack from "@mui/joy/Stack";
 
 export default async function Home() {

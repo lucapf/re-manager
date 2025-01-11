@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { Metadata } from "next";
-import "./globals.css";
+import "./ui/globals.css";
 
 import Stack from '@mui/joy/Stack';
 import Box from '@mui/joy/Box';

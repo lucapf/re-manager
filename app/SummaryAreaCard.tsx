@@ -12,7 +12,7 @@ export async function SummaryAreaCard(props: {name: string, image: string,
                                               master_project: string, community: string}) {
   const community = props.community
   const [favorites,total]  = await relevantByCommunity(community)
-  const report_url = `/report/${props.community}`
+  const report_url = `/ui/report/${props.community}`
   return (
       <Card variant="outlined" sx={{maxWidth: 300, width: 300 }}>
       <CardContent>

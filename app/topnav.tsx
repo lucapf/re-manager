@@ -12,11 +12,11 @@ export default function TopBar() {
         <Toolbar >
            <Stack direction="row" spacing={3} width='100%'>
            <Link href="/"><Typography color="inherited" >HOME</Typography></Link>
-           <Link href="/report/Dubai%20Marina">
+           <Link href="/ui/report/Dubai%20Marina">
              <Typography color="inherited" >Dubai Marina</Typography></Link>
-           <Link href="/report/jlt"><Typography color="inherited">JLT</Typography></Link>
+           <Link href="/ui/report/jlt"><Typography color="inherited">JLT</Typography></Link>
            </Stack>
-           <Link href="/settings"><Typography color="inherited">Settings</Typography></Link>
+           <Link href="/ui/settings"><Typography color="inherited">Settings</Typography></Link>
         </Toolbar>
     </AppBar>
     </Box>
