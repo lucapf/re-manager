@@ -41,10 +41,128 @@ export async function countPulseTransaction(){
 export async function countPropertyfinderTransaction(){
   const client = new Client()
   await client.connect()
-  const values = await client.query("select count(id) from propertyfinder")
+  const values = await client.query(`
+            select count(id) from propertyfinder
+                                    `)
   await client.end()
   return values.rows[0]
 }
+
+export async function settingsPropertyfinderMasterProject(){
+  const client = new Client()
+  await client.connect()
+  const values = await client.query(`
+          select distinct propertyfinder_community  as community 
+          from propertyfinder_pulse_mapping`)
+  await client.end()
+  return values.rows.map((r) => r.community);
+}
+
+export async function decodeCommunity(community:string){
+  const client = new Client()
+  await client.connect()
+  const values = await client.query(`
+          select distinct  pulse_master_project as master_project 
+          from propertyfinder_pulse_mapping 
+          where propertyfinder_community=$1 `, [community])
+  await client.end()
+  return values.rows.map((r) => r.master_project);
+}
+
+export async function getPulseTowersByCommunity(community:string, linked: boolean){
+  const client = new Client()
+  await client.connect()
+  let query =`
+    select distinct p.building_name as building
+    from pulse_tower_mapping  p join propertyfinder_pulse_area_mapping a on a.pulse_master_project = p.master_project 
+    where a.pf_community=$1 `
+  if (linked =='false'){
+    query += " and p.building_name not in (select pulse_building_name from propertyfinder_pulse_mapping)"
+  }
+  query += " order by 1 desc"
+  console.log(query)
+  const values = await client.query(query, [community])
+  await client.end()
+  return values.rows.map((r) => r.building);
+}
+
+export async function towersByCommunity(community:string, linkedTowers:boolean){
+  console.log(`towersByCommunity ${community} -  ${linkedTowers}`)
+  let query = `
+        select distinct propertyfinder_tower as tower 
+        from propertyfinder_pulse_mapping 
+        where 
+              propertyfinder_community=$1 
+      `
+  if (linkedTowers == 'false'){
+    query = `select distinct tower as tower 
+            from propertyfinder 
+            where community= $1 
+            and tower not in (select propertyfinder_tower from propertyfinder_pulse_mapping)
+    `
+  }
+  query += ' order by 1 desc'
+  console.log(`propertyfinder towers: ${query}`)
+  const client = new Client()
+  await client.connect()
+  const values = await client.query(query,[community])
+  await client.end()
+  return values.rows.map((r) => r.tower).filter(r => r != null);
+}
+
+export async function link(community: string, adTower: string, masterProject:string, pulseBuilding:string){
+  console.log(`link propertyfinder towers pulse building: ${community} tower: ${adTower} master project: ${masterProject} building: ${pulseBuilding}`)
+  const client = new Client()
+  await client.connect()
+  let sqlQuery = "select count(*) as count from pulse_tower_mapping where master_project=$1 and building_name=$2"
+  const masterProjectBuildingNameValid = (await client.query(sqlQuery, [masterProject, pulseBuilding])).rows[0].count
+  sqlQuery = "select count(*) as count from propertyfinder_tower_mapping where community=$1 and tower=$2"
+  const communityTowerNameValid = ( await client.query(sqlQuery, [community, adTower]) ).rows[0].count
+  if (masterProjectBuildingNameValid == 0 || communityTowerNameValid == 0){
+      return {'isValid': false, 'message':`Some data not in the dictionary ${community} - ${adTower} vs ${masterProject} - ${pulseBuilding}`}
+  }
+  sqlQuery = 'select count(*) as count from propertyfinder_pulse_mapping where propertyfinder_community = $1 and propertyfinder_tower= $2 and pulse_master_project=$3 and pulse_building_name=$4'
+  const countExistingMatchingRecords = ( await client.query(sqlQuery, [community, adTower, masterProject, pulseBuilding]) ).rows[0].count
+  if (countExistingMatchingRecords > 0){
+    return {'isValid': false, 'message': 'record already exists'}
+  }
+  sqlQuery = 'insert into propertyfinder_pulse_mapping (propertyfinder_community, propertyfinder_tower, pulse_master_project, pulse_building_name) values ($1, $2,$3,$4)'
+  await client.query(sqlQuery, [community, adTower, masterProject, pulseBuilding])
+  await client.end()
+  return {'isValid': true, 'message': 'created'}
+
+
+}
+
+export async function unlink(community: string, adTower:string, pulseBuilding:string){
+const client = new Client()
+  await client.connect()
+  const query = `delete 
+          from propertyfinder_pulse_mapping 
+          where propertyfinder_community = $1 and 
+                pulse_building_name = $2 and 
+                propertyfinder_tower = $3`
+  console.log(`community ${community} pulse: ${pulseBuilding} tower: ${adTower}`)
+  await client.query(query,[community, pulseBuilding, adTower])
+  await client.end()
+}
+export async function linkedByCommunity(community:string ){
+  const query =`
+      select distinct 
+          propertyfinder_community as community,
+          propertyfinder_tower as ad_tower, 
+          pulse_building_name  as pulse_building
+      from propertyfinder_pulse_mapping 
+      where 
+            propertyfinder_community=$1 
+      order by 1 asc` 
+  const client = new Client()
+  await client.connect()
+  const values = await client.query(query,[community])
+  await client.end()
+  return values.rows;
+}
+
 
 export async function supportedAreas(){
   const client = new Client()
@@ -209,10 +327,11 @@ export async function getPropertySummaryData(community: string, bedrooms: string
       and bedrooms = $2 
       ${PROPERTY_SUMMARY_WHERE} ${PROPERTY_SUMMARY_ORDER_BY}`, 
     [community, bedrooms])
-    console.log (`found ${values.rowCount} properties`)
+    console.log (`getPropertySummarydata found ${values.rowCount} properties`)
   await client.end()
   return values.rows;
 }
+
 export async function getPropertySummaryDataFavorite( ){
   const client = new Client()
   await client.connect()
@@ -221,7 +340,7 @@ export async function getPropertySummaryDataFavorite( ){
       ${PROPERTY_SUMMARY_FROM}
       and p.favorite = true
      ${PROPERTY_SUMMARY_WHERE}  ${PROPERTY_SUMMARY_ORDER_BY}`)
-    console.log (`found ${values.rowCount} properties`)
+    console.log (`Favorites found ${values.rowCount} properties`)
   await client.end()
   return values.rows;
 }

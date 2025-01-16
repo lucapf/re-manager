@@ -16,9 +16,7 @@ let c = props.string_value
  }
 const current_type = props.type
 const current_key = props.config_key
- const [current_value, setCurrentValue] = useState(c)
- //const [current_type, setCurrentType] = useState(props.type)
- //const [current_key, setCurrentKey] = useState(props.config_key)
+const [current_value, setCurrentValue] = useState(c)
 
 function save(){
   console.log(`function save: key: ${current_key} type: ${current_type} value: ${current_value}`)
