@@ -1,38 +1,32 @@
 import {towersByCommunity}  from '@/app/data'
 
-function checkCommunity(community:string){
-  if(community ==null) {
-    return new Response(new Blob(['community is mandatory']), 
-                        {status: 403, statusText:"community is mandatory"})
+function checkCommunity(community?: string| 'undefined'| null){
+  if(community == null) {
+    return {message: 'community is mandatory', status: 403, statusText:"community is mandatory"}
   }
   if (community.length > 50){
-    return new Response(new Blob(['community value too long']), 
-                        {status: 403, statusText:"community value too long "})
+    return {message:'community value too long', status: 403, statusText:"community value too long "}
   }
   return null
 }
 
-function checkIsLinked(isLinked?: boolean){
-  if (isLinked == null) {
-    return new Response(new Blob(['liked (boolean) is mandatory accepted vavalue too long']), 
-                        {status: 403, statusText:"community value too long "})
-  }
-}
-export async function GET(request:Request){
+
+
+export async function GET(request:Request): Promise<Response>{
   const url = new URL(request.url)
   const community = url.searchParams.get('community')
-  let isLinked = url.searchParams.get('linked')
-  if (isLinked == null || (isLinked != 'false' && isLinked !='true')){
+  const isLinked = url.searchParams.get('linked') 
+  if (isLinked == null || (isLinked != 'false' && isLinked != 'true')){
     const message=`linked is mandatory boolean`
-    return new Response(new Blob([message], {status: 403, statusText:message}))
+    return new Response(new Blob([message]), {status: 403, statusText:message})
   }
-
-  if (checkCommunity(community) != null){
-    return checkCommunity(community)
+  const communityValid  = checkCommunity(community)
+  if ( communityValid!= null){
+    return new Response(new Blob([communityValid.message]), {status: communityValid.status, statusText:communityValid.statusText})
   }
   console.log(`get towers for community: ${community} linked ${isLinked}`)
   try{ 
-    const response = await towersByCommunity(community, isLinked)
+    const response = await towersByCommunity(community, (isLinked == 'true') )
     return Response.json({'towers': response})
   }catch{
     return new Response(new Blob(['error fetching data']), {status: 500})

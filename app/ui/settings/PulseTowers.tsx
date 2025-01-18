@@ -4,9 +4,18 @@ import Autocomplete from '@mui/joy/Autocomplete';
 import FormControl from '@mui/joy/FormControl';
 import FormHelperText from '@mui/joy/FormHelperText';
 import FormLabel from '@mui/joy/FormLabel';
-import useMediaQuery from '@mui/material/useMediaQuery';
 
-export default function PulseTowers({masterProject, pulseTowers, onTowersSelected, isError, isDisabled}){
+export default function PulseTowers({masterProject, pulseTowers, setCurrentPulseBuilding, isError, isDisabled}:
+                                   {masterProject:string|null|undefined, pulseTowers:string[], setCurrentPulseBuilding:(b:string)=>void, isError:boolean, isDisabled:boolean}){
+  const onChange= (
+      event: React.SyntheticEvent | null,
+      newValue: string | null,
+      ) => {
+        if (newValue== null){
+          console.log(`PulseTowers new value null. abort`)
+        }
+        setCurrentPulseBuilding(newValue!)
+      }
 
   return (
           <FormControl error={isError} >
@@ -15,7 +24,7 @@ export default function PulseTowers({masterProject, pulseTowers, onTowersSelecte
               disabled={isDisabled}
               placeholder="Pulse Tower.."
               options={pulseTowers} 
-              onChange={onTowersSelected}
+              onChange={onChange}
               />
               <FormHelperText >Pulse Tower</FormHelperText >
             </FormControl>

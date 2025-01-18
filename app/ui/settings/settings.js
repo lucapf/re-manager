@@ -60,7 +60,7 @@ export function removeLink(linkedTower){
 
 // post object
 //{ community: string, propertyfinder_tower: string, pulse_master_project: string, pulse_building_name: string }
-export function linkTowerToBuilding(linkData, setLinkedTowers, setPfTowers, setPulseTowers){
+export function linkTowerToBuilding(linkData, setLinkedTowers ){
   console.log(`link tower to building ${JSON.stringify(linkData)}`)
   const strUrl=`/api/link`
   let isLinked = false
@@ -70,8 +70,6 @@ export function linkTowerToBuilding(linkData, setLinkedTowers, setPfTowers, setP
     console.log(response.status)
     if (response.status === 201){
       getLinkedTowersByCommunity(linkData.community,setLinkedTowers)
-      //setPulseTowers("")
-      //setPfTowers("")
       toast.success("linked")
       isLinked = true 
     }else if (response.status ==403){

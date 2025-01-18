@@ -8,10 +8,11 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import PulseTableRow from '@/app/ui/settings/PulseTableRow'
+import {LinkedTower} from '@/app/Interfaces'
 
 
 
-export default function LinkedTowers({linkedTowers}){
+export default function LinkedTowers({linkedTowers}:{linkedTowers:LinkedTower[]|null|undefined}){
   console.log("render linked towers triggered")
   if (linkedTowers == null){
     return ("")
@@ -29,10 +30,10 @@ export default function LinkedTowers({linkedTowers}){
           </TableRow>
         </TableHead>
         <TableBody>
-            {linkedTowers.map((linkedTower) => { 
+            {(linkedTowers!).map((linkedTower) => { 
               const rowKey = `${linkedTower.ad_tower}_${linkedTower.pulse_building}`
               return(
-              <PulseTableRow key={rowKey} linkedTower={linkedTower} />
+              <PulseTableRow key={rowKey} tableRowKey={rowKey} linkedTower={linkedTower} />
             )})}
          </TableBody>
       </Table>

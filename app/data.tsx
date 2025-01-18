@@ -38,17 +38,17 @@ export async function countPulseTransaction(){
   return values.rows[0]
 }
 
-export async function countPropertyfinderTransaction(){
+export async function countPropertyfinderTransaction():Promise<{count: number}>{
   const client = new Client()
   await client.connect()
   const values = await client.query(`
-            select count(id) from propertyfinder
+            select count(id) as count from propertyfinder
                                     `)
   await client.end()
   return values.rows[0]
 }
 
-export async function settingsPropertyfinderMasterProject(){
+export async function settingsPropertyfinderMasterProject():Promise<string[]>{
   const client = new Client()
   await client.connect()
   const values = await client.query(`
@@ -58,25 +58,25 @@ export async function settingsPropertyfinderMasterProject(){
   return values.rows.map((r) => r.community);
 }
 
-export async function decodeCommunity(community:string){
+export async function decodeCommunity(community:string): Promise<string>{
   const client = new Client()
   await client.connect()
   const values = await client.query(`
           select distinct  pulse_master_project as master_project 
           from propertyfinder_pulse_mapping 
-          where propertyfinder_community=$1 `, [community])
+          where propertyfinder_community=$1 limit 1`, [community])
   await client.end()
-  return values.rows.map((r) => r.master_project);
+  return values.rows[0].master_project
 }
 
-export async function getPulseTowersByCommunity(community:string, linked: boolean){
+export async function getPulseTowersByCommunity(community:string, linked: boolean): Promise<string[]>{
   const client = new Client()
   await client.connect()
   let query =`
     select distinct p.building_name as building
     from pulse_tower_mapping  p join propertyfinder_pulse_area_mapping a on a.pulse_master_project = p.master_project 
     where a.pf_community=$1 `
-  if (linked =='false'){
+  if (linked == false){
     query += " and p.building_name not in (select pulse_building_name from propertyfinder_pulse_mapping)"
   }
   query += " order by 1 desc"
@@ -86,7 +86,10 @@ export async function getPulseTowersByCommunity(community:string, linked: boolea
   return values.rows.map((r) => r.building);
 }
 
-export async function towersByCommunity(community:string, linkedTowers:boolean){
+export async function towersByCommunity(community:string| null|'undefined', linkedTowers:boolean): Promise<string[]| null>{
+  if (community == null){
+    return null
+  }
   console.log(`towersByCommunity ${community} -  ${linkedTowers}`)
   let query = `
         select distinct propertyfinder_tower as tower 
@@ -94,7 +97,7 @@ export async function towersByCommunity(community:string, linkedTowers:boolean){
         where 
               propertyfinder_community=$1 
       `
-  if (linkedTowers == 'false'){
+  if (linkedTowers == false){
     query = `select distinct tower as tower 
             from propertyfinder 
             where community= $1 
@@ -110,7 +113,7 @@ export async function towersByCommunity(community:string, linkedTowers:boolean){
   return values.rows.map((r) => r.tower).filter(r => r != null);
 }
 
-export async function link(community: string, adTower: string, masterProject:string, pulseBuilding:string){
+export async function link(community: string, adTower: string, masterProject:string, pulseBuilding:string):Promise<{isValid: boolean, message: string}>{
   console.log(`link propertyfinder towers pulse building: ${community} tower: ${adTower} master project: ${masterProject} building: ${pulseBuilding}`)
   const client = new Client()
   await client.connect()

@@ -6,7 +6,7 @@ import IconButton from '@mui/material/IconButton';
 import {removeLink} from '@/app/ui/settings/settings'
 import {useState} from 'react'
 
-export default function PulseTableRow({tableRowKey,  linkedTower}){
+export default function PulseTableRow({tableRowKey,  linkedTower}:{tableRowKey:string, linkedTower:{ad_tower:string, pulse_building:string}}){
   const currentLinkedTower = linkedTower
   const [show, setShow]  = useState(true)
   

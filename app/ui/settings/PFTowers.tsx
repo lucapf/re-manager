@@ -1,12 +1,20 @@
 'use client'
-import {useState} from 'react'
-import Typography from '@mui/material/Typography';
 import Autocomplete from '@mui/joy/Autocomplete';
 import FormControl from '@mui/joy/FormControl';
 import FormHelperText from '@mui/joy/FormHelperText';
 import FormLabel from '@mui/joy/FormLabel';
 
-export default function PFTowers({towers, onTowersSelected, isError, isDisabled} ){
+export default function PFTowers({towers, setCurrentPFTower, isError, isDisabled}: 
+                                 {towers: string[], setCurrentPFTower:(t:string|null)=>void, isError:boolean, isDisabled:boolean} ){
+
+  const onChange=  (
+    event: React.SyntheticEvent | null,
+    newValue: string | null,
+    ) => {
+      setCurrentPFTower(newValue)
+    }
+
+
   return (
    <FormControl error={isError}>
     <FormLabel>Towers:</FormLabel>
@@ -15,7 +23,7 @@ export default function PFTowers({towers, onTowersSelected, isError, isDisabled}
              placeholder="Propertyfinder Tower..."
              key="ListPFTowers" 
              options={towers}
-             onChange={onTowersSelected}
+             onChange={onChange}
     />
     <FormHelperText>Propertyfinder towers</FormHelperText> 
   </FormControl>

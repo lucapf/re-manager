@@ -29,7 +29,7 @@ export default function RootLayout({
     <title> Re-veal dubai</title>
     </head>
       <body >
-        <Stack spacing={2} sx={{  width: '100%', alignItems: 'center'}}>
+        <Stack spacing={2} sx={{  width: '100%', alignItems: 'left'}}>
           <TopNav/>
           <Toaster position="top-right" expand={true} richColors/>
           <Box sx={{paddingLeft:3}}>

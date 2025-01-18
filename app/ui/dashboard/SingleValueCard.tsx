@@ -1,20 +1,28 @@
-import * as React from 'react';
+'use server'
 import { Box, Card, Divider, Typography } from '@mui/material';
-import {toHumanValue} from "@/public/util.js"
+import { countPulseTransaction, countPropertyfinderTransaction, } from '@/app/data';
 
-export async function SingleValueCard (props: {title: string, value: number}) {
-  console.log(props.value)
+export default async function SingleValueCard (props: {countType:string}) {
+  let valueCount = 0
+  let title= "Pulse Sales"
+  if ( props.countType === "pulse"){
+     valueCount = (await countPulseTransaction()).count;
+  }else{
+     title = "Advertising"
+     valueCount = (await countPropertyfinderTransaction()).count;
+  }
+  console.log(`singleValueCard: ${valueCount}`)
   return (
       <Card variant="outlined" sx={{maxWidth: 360 }}>
         <Box sx={{p:2}}>
         <Typography variant='h6' gutterBottom component="div" sx={{fontWeight: "bold"}}>
-          {props.title}
+          {title}
         </Typography>
         </Box>
         <Divider />
         <Box sx={{p:2}}>
         <Typography variant='h3' sx={{textAlign: "center", fontWeight:"bold"}}> 
-          {toHumanValue(props.value)}
+          {valueCount}
         </Typography>
         </Box>
       </Card>

@@ -1,26 +1,18 @@
 import  "@/app/ui/globals.css";
-import  { 
-          countPulseTransaction, 
-          countPropertyfinderTransaction, 
-          supportedAreas
-        } from '@/app/data';
+import  { supportedAreas } from '@/app/data';
 import PropertyCard from '@/app/ui/dashboard/PropertyCard';
-import  {SingleValueCard} from "@/app/ui/dashboard/SingleValueCard";
+import  SingleValueCard from "@/app/ui/dashboard/SingleValueCard";
 import  {SummaryAreaCard} from "@/app/ui/dashboard/SummaryAreaCard";
 import  Stack from "@mui/joy/Stack";
 
 export default async function Home() {
-  const pulseTransaction = (await countPulseTransaction()).count;
-  const countAds = (await countPropertyfinderTransaction()).count;
   const areas = await supportedAreas();
 
-  console.log(pulseTransaction)
-  console.log(countAds)
   return (
     <Stack spacing={4}>
       <Stack direction="row" spacing={2}>
-        <SingleValueCard title="Pulse Sales" value={pulseTransaction }/>
-        <SingleValueCard title="Advertising" value={countAds}/>
+        <SingleValueCard countType = "pulse" />
+        <SingleValueCard countType = "ads"  />
       </Stack>
        <Stack spacing ={2} direction="row">
         {areas.map((a) => (
