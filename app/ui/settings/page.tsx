@@ -1,11 +1,5 @@
 'use server'
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid2';
 import Box from '@mui/material/Box';
-import {List} from '@mui/joy';
-import ConfigItem from '@/app/ui/settings/ConfigItem'
-import {getStringConfigurationItem, 
-        settingsPropertyfinderMasterProject} from "@/app/data"
 import {SettingsSection, PropertyMappingSection} from '@/app/ui/settings/ConfigSection'
 import Tabs from '@mui/joy/Tabs';
 import TabList from '@mui/joy/TabList';

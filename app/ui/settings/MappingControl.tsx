@@ -23,7 +23,7 @@ import {LinkedTower } from '@/app/Interfaces'
 export function MappingControl(props:{communities: string[]}){
 
 const selectedCommunity= useRef("")
-let community: string| null = null
+//const community: string| null = null
 //const [community, setCommunity] = useState<string|null>()
 const [masterProject, setMasterProject] = useState<string|null>()
 const [pfTowers, setPfTowers] = useState<string[]>(['no towers'])

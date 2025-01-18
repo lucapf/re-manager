@@ -1,8 +1,6 @@
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid2';
 import Tabs from '@mui/joy/Tabs';
 import TabList from '@mui/joy/TabList';
-import Tab, {tabClasses} from '@mui/joy/Tab';
+import Tab from '@mui/joy/Tab';
 import TabPanel from '@mui/joy/TabPanel';
 import Box from '@mui/material/Box';
 import {PropertyMappingSection, SettingsSection} from '@/app/ui/settings/ConfigSection'
