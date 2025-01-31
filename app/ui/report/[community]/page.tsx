@@ -3,8 +3,6 @@ import PropertyCard from '@/app/ui/dashboard/PropertyCard';
 import {getReportStatsByType, getSupportedTypes, getConfigIntValue}  from '@/app/data'
 import {Stack} from '@mui/joy'
 import Tabs from '@mui/joy/Tabs';
-import Box from '@mui/joy/Box';
-import Button from '@mui/joy/Button';
 import TabList from '@mui/joy/TabList';
 import Tab from '@mui/joy/Tab';
 import TabPanel from '@mui/joy/TabPanel';
@@ -19,9 +17,6 @@ import {stringify_property_type,
 type Params = Promise<{ community: string }>
 
 export default  async function Home(context: { params: Params }){
-  function regenerate(){
-    alert("regenerate")
-  }
    const p = await context.params;
    const community = await decodeURIComponent(p.community);
    const supported_types = await getSupportedTypes();

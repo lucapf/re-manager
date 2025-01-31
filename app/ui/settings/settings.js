@@ -1,10 +1,10 @@
 import {toast} from 'sonner' 
 
 export function syncPropertyFinder () {
-      fetch(`/be/propertyfinder`,{ method: 'POST'})
+      fetch(`/be/propertyfinder/`,{ method: 'POST'})
       .then(res =>{
         if (res.status == 201){
-          res.text().then((job_id) => {toast.success(`job {job_id} queued`)})
+          res.text().then((job_id) => {toast.success(`job ${job_id} queued`)})
         }else{
           toast.error('unable to enqueue execution job')
         } })
@@ -14,7 +14,7 @@ export function syncPulse() {
       fetch(`/be/pulse`,{ method: 'POST'})
       .then(res =>{
         if (res.status == 201){
-          res.text().then((job_id) => {toast.success(`job {job_id} queued`)})
+          res.text().then((job_id) => {toast.success(`job ${job_id} queued`)})
         }else{
           toast.error('unable to enqueue execution job')
         } })

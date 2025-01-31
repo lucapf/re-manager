@@ -259,7 +259,7 @@ export async function getLastJobExecutions(){
   const values = await client.query(`select id, status, name, started_at, completed_at, log 
                                     from job_execution order by started_at desc limit 4` )
   await client.end()
-  return values.rows 
+  return values.rows
 }
 
 
