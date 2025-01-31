@@ -46,7 +46,7 @@ function updatePulseMasterProject (community: string) {
       } })
 }
 
-const onSelectCommunity =(community:string)=>{
+const onSelectCommunity = (community:string) => {
       selectedCommunity.current = community
       updatePulseMasterProject(community)
       getPFTowersByCommunity(community, setPfTowers, false);

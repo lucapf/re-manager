@@ -8,6 +8,8 @@ import Grid from '@mui/material/Grid2';
 import ConfigItem from '@/app/ui/settings/ConfigItem'
 import {MappingControl} from '@/app/ui/settings/MappingControl'
 
+
+ 
 export async function PropertyMappingSection(){
   const communities = await settingsPropertyfinderMasterProject() 
    

@@ -253,6 +253,15 @@ export async function PerPeriodStatsByAdId(ad_id: string){
   return values.rows;
 }
 
+export async function getLastJobExecutions(){
+  const client = new Client()
+  await client.connect()
+  const values = await client.query(`select id, status, name, started_at, completed_at, log 
+                                    from job_execution order by started_at desc limit 4` )
+  await client.end()
+  return values.rows 
+}
+
 
 export async function getReportStatsByType(community: string){
   const client = new Client()
@@ -349,3 +358,6 @@ export async function getPropertySummaryDataFavorite( ){
   await client.end()
   return values.rows;
 }
+
+
+
