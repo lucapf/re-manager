@@ -14,7 +14,7 @@ export default function TopBar() {
            <Link href="/"><Typography color="inherited" >HOME</Typography></Link>
            <Link href="/ui/report/Dubai%20Marina">
              <Typography color="inherited" >Dubai Marina</Typography></Link>
-           <Link href="/ui/report/jlt"><Typography color="inherited">JLT</Typography></Link>
+           <Link href="/ui/report/Jumeirah%20Lake%20Towers"><Typography color="inherited">JLT</Typography></Link>
            </Stack>
            <Link href="/ui/settings"><Typography color="inherited">Settings</Typography></Link>
         </Toolbar>

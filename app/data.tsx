@@ -24,7 +24,7 @@ export async function update_favorite(ad_id: string){
   const client = new Client()
   await client.connect()
   await client.query(`
-              update propertyfinder set favorite= not favorite where id=$1
+              update propertyfinder set favorite= not coalesce(favorite, false) where id=$1
                     `, [ad_id])
   const value = await client.query("select favorite from propertyfinder where id=$1", [ad_id])
   await client.end()
@@ -51,9 +51,11 @@ export async function countPropertyfinderTransaction():Promise<{count: number}>{
 export async function settingsPropertyfinderMasterProject():Promise<string[]>{
   const client = new Client()
   await client.connect()
-  const values = await client.query(`
-          select distinct propertyfinder_community  as community 
-          from propertyfinder_pulse_mapping`)
+  const values = await client.query(`select pf_community as community from propertyfinder_pulse_area_mapping`)
+    
+  //const values = await client.query(`
+  //        select distinct propertyfinder_community  as community 
+  //        from propertyfinder_pulse_mapping`)
   await client.end()
   return values.rows.map((r) => r.community);
 }

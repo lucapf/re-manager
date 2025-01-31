@@ -1,4 +1,3 @@
-'use server'
 import Box from '@mui/material/Box';
 import {SettingsSection, PropertyMappingSection} from '@/app/ui/settings/ConfigSection'
 import Tabs from '@mui/joy/Tabs';
@@ -6,6 +5,7 @@ import TabList from '@mui/joy/TabList';
 import Tab from '@mui/joy/Tab';
 import TabPanel from '@mui/joy/TabPanel';
 
+export const dynamic = 'force-dynamic';
 export default async function Home(){
  return (
    <Box sx={{width: "100%"}}>

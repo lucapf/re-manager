@@ -8,4 +8,5 @@ export default nextConfig;
 
 module.exports = {
   output: "standalone",
+  basePath: "/manager",
 };

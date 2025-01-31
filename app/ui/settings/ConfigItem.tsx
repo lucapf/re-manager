@@ -32,8 +32,8 @@ function save(){
 } 
   return (
    <>
-   <Grid size={2}> <b>{props.label}</b> </Grid>
-   <Grid size={2}> 
+   <Grid size={{md:3, xs:4}}> <b>{props.label}</b> </Grid>
+   <Grid size={{md:4, xs:8}}> 
        <Input type={props.type} 
               defaultValue={current_value}
               onChange={ (e) =>{ setCurrentValue(e.target.value) }} 
@@ -41,7 +41,7 @@ function save(){
               />
                                        
    </Grid>
-   <Grid size={7}> {props.description} </Grid>
+   <Grid size={{md:5, xs:12}}> {props.description} </Grid>
    </>
  )
 

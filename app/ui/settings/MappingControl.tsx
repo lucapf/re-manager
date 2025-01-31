@@ -2,6 +2,7 @@
 import Grid from '@mui/material/Grid2';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import {PFCommunities} from '@/app/ui/settings/PFCommunities'
 import {useRef }  from 'react'
 import {useState}  from 'react'
@@ -17,14 +18,11 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import Button from '@mui/joy/Button';
 import {LinkedTower } from '@/app/Interfaces'
 
-//const fetcher = (...args) => fetch(...args).then(res => res.text())
 
 
 export function MappingControl(props:{communities: string[]}){
 
 const selectedCommunity= useRef("")
-//const community: string| null = null
-//const [community, setCommunity] = useState<string|null>()
 const [masterProject, setMasterProject] = useState<string|null>()
 const [pfTowers, setPfTowers] = useState<string[]>(['no towers'])
 const [linkedTowers, setLinkedTowers] = useState<LinkedTower[]|null|undefined>()
@@ -39,7 +37,7 @@ const [isDisabledPFTowers, setIsDisabledPFTowers] = useState<boolean>(true)
 const [isDisabledPulseTower, setIsDisabledPulseTower] = useState<boolean>(true)
 
 function updatePulseMasterProject (community: string) {
-  fetch(`/api/pulse/masterProject?community=${community}`)
+  fetch(`/manager/api/pulse/masterProject?community=${community}`)
 .then(res =>{
       if (res.status == 200){
         res.text().then((mp) => {setMasterProject(mp)})
@@ -84,21 +82,20 @@ const link = () =>{
 }
 
 
-
  return (
    <>
     <Box sx={{width: '100%', padding: '35px', alignContent: 'flex-left', }}>
       <Typography variant="h2"> Towers Mappings </Typography>
       <Grid container spacing={3} margin={3}
             sx={{width:'100%',  alignItems: "center", }}>
-          <Grid size={3}>
+          <Grid size={{md:3, xs:12}}>
               <PFCommunities 
                   onSelectCommunity={onSelectCommunity}
                   communities={props.communities}
                   isError={isErrorCommunity!}
                   />
           </Grid>
-          <Grid size={3}>
+          <Grid size={{md:3, xs:6}}>
              <PFTowers 
              towers={pfTowers} 
              setCurrentPFTower={setCurrentPFTower}
@@ -106,7 +103,7 @@ const link = () =>{
              isDisabled={isDisabledPFTowers}
              />
           </Grid>
-          <Grid size={3}>
+          <Grid size={{md:3, xs:12}}> 
              <PulseTowers 
                isError={isErrorPulseTower}
                masterProject={masterProject} 
@@ -116,12 +113,14 @@ const link = () =>{
             />
 
           </Grid>
-          <Grid size={3}>
-            <Button startDecorator={<AddBoxIcon />} onClick={link} component='a'>
-               Link
-            </Button>
+          <Grid size={{md:3, xs:12}}>
+            <Stack direction="row" spacing={2}>
+              <Button startDecorator={<AddBoxIcon />} onClick={link} component='a'>
+                 Link
+              </Button>
+            </Stack>
           </Grid>
-           <Grid size={12}>
+           <Grid>
               <LinkedTowers linkedTowers={linkedTowers}/>
           </Grid>        
       </Grid>

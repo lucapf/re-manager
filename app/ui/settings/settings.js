@@ -1,6 +1,6 @@
 import {toast} from 'sonner' 
 export function getPFTowersByCommunity(community, setPfTowers,linked){
-  const strUrl=`/api/ads/towers?community=${community}&linked=${linked}`
+  const strUrl=`/manager/api/ads/towers?community=${community}&linked=${linked}`
   const towersRequest= new Request(strUrl, { method: "GET" });
   fetch(towersRequest)
   .then((response)=>{
@@ -14,7 +14,7 @@ export function getPFTowersByCommunity(community, setPfTowers,linked){
 }
 
 export function getLinkedTowersByCommunity(community, setLinkedTowers){
-  const towersRequest= new Request(`/api/link?community=${community}`,
+  const towersRequest= new Request(`/manager/api/link?community=${community}`,
                                    { method: "GET" });
   fetch(towersRequest)
   .then((response)=>{
@@ -28,7 +28,7 @@ export function getLinkedTowersByCommunity(community, setLinkedTowers){
 }
 
 export function getPulseTowersByCommunity(community, setPulseTowers, isLinked){
-  const url = `/api/pulse/towers?community=${community}&linked=${isLinked}`
+  const url = `/manager/api/pulse/towers?community=${community}&linked=${isLinked}`
   const towersRequest= new Request(url, { method: "GET" });
   fetch(towersRequest)
   .then((response)=>{
@@ -43,7 +43,7 @@ export function getPulseTowersByCommunity(community, setPulseTowers, isLinked){
 
 export function removeLink(linkedTower){
   console.log(`remove link ${linkedTower.pulse_building}`)
-  const strUrl=`/api/link?community=${encodeURIComponent(linkedTower.community)}` +
+  const strUrl=`/manager/api/link?community=${encodeURIComponent(linkedTower.community)}` +
                `&ad_tower=${encodeURIComponent(linkedTower.ad_tower)}` +
                `&pulse_building=${encodeURIComponent(linkedTower.pulse_building)}`
   console.log(`url: ${strUrl}`)
@@ -62,7 +62,7 @@ export function removeLink(linkedTower){
 //{ community: string, propertyfinder_tower: string, pulse_master_project: string, pulse_building_name: string }
 export function linkTowerToBuilding(linkData, setLinkedTowers ){
   console.log(`link tower to building ${JSON.stringify(linkData)}`)
-  const strUrl=`/api/link`
+  const strUrl=`/manager/api/link`
   let isLinked = false
   const towersRequest= new Request(strUrl, { method: "POST", body: JSON.stringify(linkData)});
   fetch(towersRequest)
@@ -80,3 +80,5 @@ export function linkTowerToBuilding(linkData, setLinkedTowers ){
     } })
   return isLinked
 }
+
+
