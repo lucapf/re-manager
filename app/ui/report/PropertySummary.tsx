@@ -55,6 +55,8 @@ export default function PropertySummary (props:{property: {
         <tr>
             <th colSpan={2}>
                 <Link href={p.url} >[{p.id}] - {p.location} </Link>
+            </th>
+            <th>
                 <IconButton onClick={() => {delete_ad(p.id); }}>
                   <DeleteIcon color="error"/>
                 </IconButton>
@@ -62,8 +64,7 @@ export default function PropertySummary (props:{property: {
                   <FavoriteIcon ref={favoriteRef} color={color} id={p.id}/>
                 </IconButton>
             </th>
-            <th >Score</th>
-            <th>{p.score}</th>
+            <th >Score: {p.score}</th>
         </tr> 
         <tr>
           <th >listed date</th>
