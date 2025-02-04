@@ -27,7 +27,7 @@ export async function GET(request:Request): Promise<Response>{
   console.log(`get towers for community: ${community} linked ${isLinked}`)
   try{ 
     const response = await towersByCommunity(community, (isLinked == 'true') )
-    return Response.json({'towers': response})
+    return Response.json(response)
   }catch{
     return new Response(new Blob(['error fetching data']), {status: 500})
   }

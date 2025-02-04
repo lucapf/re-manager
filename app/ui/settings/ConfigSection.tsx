@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid2';
 import ConfigItem from '@/app/ui/settings/ConfigItem'
 import {MappingControl} from '@/app/ui/settings/MappingControl'
+import MappingWizard from '@/app/ui/settings/MappingWizard'
 
 
  
@@ -14,7 +15,11 @@ export async function PropertyMappingSection(){
   const communities = await settingsPropertyfinderMasterProject() 
    
   return (
-    <MappingControl communities={communities} />
+    <>
+      <Typography variant="h2"> Towers Mappings </Typography>
+      <MappingWizard/>
+      <MappingControl communities={communities} />
+    </>
     )
 }
 

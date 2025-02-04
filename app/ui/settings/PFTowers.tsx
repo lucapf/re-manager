@@ -5,9 +5,9 @@ import FormHelperText from '@mui/joy/FormHelperText';
 import FormLabel from '@mui/joy/FormLabel';
 
 export default function PFTowers({towers, setCurrentPFTower, isError, isDisabled}: 
-                                 {towers: string[], setCurrentPFTower:(t:string|null)=>void, isError:boolean, isDisabled:boolean} ){
-
-  const onChange=  (
+                                 {towers: [{labeld: string, id:string}], setCurrentPFTower:(t:string|null)=>void, isError:boolean, isDisabled:boolean} ){
+  
+    const onChange=  (
     event: React.SyntheticEvent | null,
     newValue: string | null,
     ) => {

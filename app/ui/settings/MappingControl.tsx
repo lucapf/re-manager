@@ -5,11 +5,11 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import {PFCommunities} from '@/app/ui/settings/PFCommunities'
 import {useRef }  from 'react'
-import {useState}  from 'react'
+import {useState, useEffect}  from 'react'
 import {getPFTowersByCommunity, 
         getLinkedTowersByCommunity, 
         getPulseTowersByCommunity, 
-        linkTowerToBuilding,
+        linkTowerToBuilding,syncAdsStats
         } from '@/app/ui/settings/settings'
 import PFTowers from '@/app/ui/settings/PFTowers'
 import LinkedTowers from '@/app/ui/settings/LinkedTowers'
@@ -17,18 +17,21 @@ import PulseTowers from '@/app/ui/settings/PulseTowers'
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import Button from '@mui/joy/Button';
 import {LinkedTower } from '@/app/Interfaces'
+import LinearProgress  from '@mui/material/LinearProgress';
 
 
 
 export function MappingControl(props:{communities: string[]}){
 
 const selectedCommunity= useRef("")
+const [totalAds, setTotalAds] = useState<number>(0)
+const [linkedAds, setLinkedAds] = useState<number>(0)
 const [masterProject, setMasterProject] = useState<string|null>()
-const [pfTowers, setPfTowers] = useState<string[]>(['no towers'])
+const [pfTowers, setPfTowers] = useState<{label:string, id:string}[]>([{label:'', id:''}])
 const [linkedTowers, setLinkedTowers] = useState<LinkedTower[]|null|undefined>()
 const [pulseTowers, setPulseTowers] = useState<string[]>(['no towers'])
 const [currentPulseBuilding, setCurrentPulseBuilding] = useState<string|null>()
-const [currentPFTower, setCurrentPFTower] = useState<string|null>()
+const [currentPFTower, setCurrentPFTower] = useState<{label:string, id:string}>()
 const [isErrorCommunity, setIsErrorCommunity] = useState<boolean|null>(false)
 const [isErrorPFTowers, setIsErrorPFTowers] = useState<boolean>(false)
 const [isErrorPulseTower, setIsErrorPulseTower] = useState<boolean>(false)
@@ -58,10 +61,16 @@ const onSelectCommunity = (community:string) => {
        setIsErrorPFTowers(false)
        setIsDisabledPFTowers(false)
        setIsDisabledPulseTower(false)
+        
       }
-      
     };
 
+useEffect(() =>{
+    if (selectedCommunity.current == ''){
+      return
+    }
+    syncAdsStats(selectedCommunity.current, setTotalAds, setLinkedAds)
+  }, [selectedCommunity.current])
 
 const link = () =>{
   setIsErrorCommunity((selectedCommunity.current  == null) );
@@ -73,7 +82,7 @@ const link = () =>{
       masterProject != null){
     const postData = {
                         community: selectedCommunity.current, 
-                        propertyfinder_tower: currentPFTower,
+                        propertyfinder_tower: currentPFTower.id,
                         pulse_master_project: masterProject,
                         pulse_building_name: currentPulseBuilding
                       }
@@ -81,11 +90,13 @@ const link = () =>{
   }
 }
 
-
  return (
    <>
+      <LinearProgress variant='determinate' sx={{width: 200, marginTop:2, marginBottom: 2}} 
+        value={100*linkedAds/totalAds} />
+    <Typography variant='h5' > Total Ads: {totalAds} , linked {linkedAds}</Typography>
+
     <Box sx={{width: '100%', padding: '35px', alignContent: 'flex-left', }}>
-      <Typography variant="h2"> Towers Mappings </Typography>
       <Grid container spacing={3} margin={3}
             sx={{width:'100%',  alignItems: "center", }}>
           <Grid size={{md:3, xs:12}}>

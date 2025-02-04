@@ -1,12 +1,27 @@
 import {toast} from 'sonner' 
 
+export function syncAdsStats(community, setTotalAds, setLinkedAds){
+    fetch(`/be/link/${community}/stats`,{ method: 'GET'})
+      .then(res =>{
+        if (res.status == 200){
+          res.json()
+          .then((r) => {
+            setTotalAds(r.totalAds)
+            setLinkedAds(r.linked)})
+        }else{
+          toast.error('unale to sync')
+        } })
+
+}
+
+
 export function syncPropertyFinder () {
       fetch(`/be/propertyfinder/`,{ method: 'POST'})
       .then(res =>{
         if (res.status == 201){
           res.text().then((job_id) => {toast.success(`job ${job_id} queued`)})
         }else{
-          toast.error('unable to enqueue execution job')
+          toast.error('unable to sync propertyfinder ads')
         } })
   }
 
@@ -29,7 +44,12 @@ export function getPFTowersByCommunity(community, setPfTowers,linked){
     console.log(response.status)
     if (response.status === 200){
       console.log('data retrieved')
-      response.json().then((data) => {setPfTowers(data.towers)})
+      response.json().then((data) => {
+          let options = [{label: "", id:""}] 
+          if (data != null){
+            options =data.map((t)=> {return ({label: `${t.tower} (${t.count})`, id: t.tower})})
+          }
+          setPfTowers(options)})
     }else{
       console.log(`error during fetch ${response.status} pls check logs`)
     } })

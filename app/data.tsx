@@ -88,31 +88,45 @@ export async function getPulseTowersByCommunity(community:string, linked: boolea
   return values.rows.map((r) => r.building);
 }
 
+export async function totalAdsByCommunity(community:string| null|'undefined', linkedTowers:boolean): Promise<number>{
+  if (community == null){
+    return 0 
+  }
+  const query = ` select count(id) as count from propertyfinder where community={community}`
+  const client = new Client()
+  await client.connect()
+  const values = await client.query(query,[community])
+  await client.end()
+  return values.rows[0].count
+
+}
+
 export async function towersByCommunity(community:string| null|'undefined', linkedTowers:boolean): Promise<string[]| null>{
   if (community == null){
     return null
   }
   console.log(`towersByCommunity ${community} -  ${linkedTowers}`)
   let query = `
-        select distinct propertyfinder_tower as tower 
+        select count(*) as count, propertyfinder_tower as tower 
         from propertyfinder_pulse_mapping 
         where 
               propertyfinder_community=$1 
+        group by 2 order by 2 desc
       `
   if (linkedTowers == false){
-    query = `select distinct tower as tower 
+    query = `select count(*) as count, tower as tower 
             from propertyfinder 
             where community= $1 
             and tower not in (select propertyfinder_tower from propertyfinder_pulse_mapping)
+            group by tower order by 2 desc 
     `
   }
-  query += ' order by 1 desc'
   console.log(`propertyfinder towers: ${query}`)
   const client = new Client()
   await client.connect()
   const values = await client.query(query,[community])
   await client.end()
-  return values.rows.map((r) => r.tower).filter(r => r != null);
+  return values.rows
 }
 
 export async function link(community: string, adTower: string, masterProject:string, pulseBuilding:string):Promise<{isValid: boolean, message: string}>{
