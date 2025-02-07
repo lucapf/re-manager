@@ -88,7 +88,7 @@ export async function getPulseTowersByCommunity(community:string, linked: boolea
   return values.rows.map((r) => r.building);
 }
 
-export async function totalAdsByCommunity(community:string| null|'undefined', linkedTowers:boolean): Promise<number>{
+export async function totalAdsByCommunity(community:string| null|'undefined'): Promise<number>{
   if (community == null){
     return 0 
   }
@@ -110,13 +110,14 @@ export async function towersByCommunity(community:string| null|'undefined', link
         select count(*) as count, propertyfinder_tower as tower 
         from propertyfinder_pulse_mapping 
         where 
-              propertyfinder_community=$1 
+              propertyfinder_community=$1
         group by 2 order by 2 desc
       `
   if (linkedTowers == false){
     query = `select count(*) as count, tower as tower 
             from propertyfinder 
             where community= $1 
+            and completion_status = 'completed'
             and tower not in (select propertyfinder_tower from propertyfinder_pulse_mapping)
             group by tower order by 2 desc 
     `

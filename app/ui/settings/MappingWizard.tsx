@@ -6,15 +6,15 @@ import Box from '@mui/material/Box'
 import { useState } from 'react';
 
 export default function SettingsSection(){
-  var [logProgress, setLogProgress] = useState<string>('') 
-   var is_running = false 
+  const [logProgress, setLogProgress] = useState<string>('') 
+  let is_running = false 
   function match(){
    if (is_running){
       alert("two requests at the same time")
       return
     }
     is_running = true
-   var log = '';
+   let log = '';
    ["Dubai Marina", "Jumeirah Lake Towers"].map((c) => {
       log =`${log}\n${c}: start`
       setLogProgress(log)

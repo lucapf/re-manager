@@ -17,7 +17,7 @@ import PulseTowers from '@/app/ui/settings/PulseTowers'
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import Button from '@mui/joy/Button';
 import {LinkedTower } from '@/app/Interfaces'
-import LinearProgress  from '@mui/material/LinearProgress';
+import LinearProgress  from '@mui/joy/LinearProgress';
 
 
 
@@ -92,9 +92,13 @@ const link = () =>{
 
  return (
    <>
-      <LinearProgress variant='determinate' sx={{width: 200, marginTop:2, marginBottom: 2}} 
-        value={100*linkedAds/totalAds} />
-    <Typography variant='h5' > Total Ads: {totalAds} , linked {linkedAds}</Typography>
+        { linkedAds > 0 && (
+          <Box sx={{width: 300, maxWidth: 400, minWidth: 200}}>
+            <LinearProgress  determinate variant='outlined'  size='lg'  sx={{  marginTop:1, marginBottom: 0}} value={100*linkedAds/totalAds} />
+            <Typography variant='caption' > Total Ads: {totalAds} , linked {linkedAds}</Typography>
+          </Box>
+         
+        )}
 
     <Box sx={{width: '100%', padding: '35px', alignContent: 'flex-left', }}>
       <Grid container spacing={3} margin={3}
