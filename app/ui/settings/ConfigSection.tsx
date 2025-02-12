@@ -50,6 +50,12 @@ return (
         <Item config_key="report.max_sales_days" type="number"/>
         <Item config_key="report.relevant_properties_min_score" type="number"/ >
         <Item config_key="report.spike_threshold_perc" type="number"/>
+        <Item config_key="threshold.size.1br" type="number"/>
+        <Item config_key="penalized.words" type="text"/>
+        <Item config_key="penalized.words.score" type="number"/>
+        <Item config_key="boosted.words" type="text"/>
+        <Item config_key="boosted.words.score" type="number"/>
+        <Item config_key="threshold.size.score" type="number"/>
         <Item config_key="sales.candidates_tower_min_age_years" type="number"/>
       </Grid>
     </Box>
