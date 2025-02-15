@@ -72,19 +72,19 @@ export default function PropertySummary (props:{ property: {
           <FavoriteIcon ref={favoriteRef} color={color} id={p.id}/>
         </IconButton>
       </Grid>
-      <Grid size={{xs: 12, md:3}}>
+      <Grid size={{xs: 6, md:3}}>
         Score: <b>{p.score}</b>
       </Grid>
-      <Grid size={{xs: 12, md:2}}>
+      <Grid size={{xs: 6, md:2}}>
         listed date: <b>{formatDate(p.listed_date)}</b>
       </Grid>
-      <Grid size={{xs: 12, md:2}}>
+      <Grid size={{xs: 6, md:2}}>
         Size (sqft): <b>{formatInteger(p.size)}</b>
       </Grid>
-      <Grid size={{xs: 12, md:2}}>
+      <Grid size={{xs: 6, md:2}}>
           Price (AED): <b>{formatCurrencyNoDec(p.price)}</b>
       </Grid>
-      <Grid size={{xs: 12, md:2}}>
+      <Grid size={{xs: 6, md:2}}>
           AED/sqft: <b>{formatCurrency(p.price_sqft)}</b>
       </Grid>
       <Grid size="auto"></Grid>

@@ -38,7 +38,7 @@ export default async function PropertySales(props: {ad_id: string, spike: boolea
          <Table size="sm" borderAxis="both" hoverRow  sx={{textAlign:'center'}}>
          <thead>
          <tr>
-           <th>id</th> 
+          <th>id</th>
            <th>instance date</th> 
            <th>price (AED)</th>
            <th>price/sqft (AED)</th> 

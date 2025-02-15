@@ -1,5 +1,6 @@
 import pg from 'pg'
 import 'dotenv/config'
+import { PropertyStatistics } from './Interfaces'
 const { Client } = pg
 
 export async function getConfigIntValue(key: string){
@@ -243,7 +244,7 @@ export async function ReportSalesData(ad_id: string, spike: boolean){
   return values.rows;
 }
 
-export async function PerPeriodStatsByAdId(ad_id: string){
+export async function PerPeriodStatsByAdId(ad_id: string):Promise<PropertyStatistics[]>{
   const client = new Client()
   await client.connect()
   const values = await client.query(`
@@ -264,7 +265,7 @@ export async function PerPeriodStatsByAdId(ad_id: string){
     `, [ad_id ])
 
   await client.end()
-  return values.rows;
+  return values.rows
 }
 
 export async function getLastJobExecutions(){

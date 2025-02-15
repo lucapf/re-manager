@@ -32,7 +32,7 @@ export default function RootLayout({
         <Stack spacing={2} sx={{  width: '100%', alignItems: 'left'}}>
           <TopNav/>
           <Toaster position="top-right" expand={true} richColors/>
-          <Box sx={{paddingLeft:3}}>
+          <Box sx={{paddingLeft:1}}>
           {children}
           </Box>
           </Stack>

@@ -25,7 +25,7 @@ export default async function PropertyCard(props: {community?: string,
   }
   return (
 
-      <Stack direction="column" spacing={5} margin={2} padding={2}>
+      <Stack direction="column" spacing={5} >
       <Typography variant="h4" >
                 Type: {stringify_property_type(props.property_type)} 
       </Typography>
