@@ -1,4 +1,4 @@
-import { getPropertySummaryData, getPropertySummaryDataFavorite} from "@/app/data";
+import { getPropertySummaryData, getPropertySummaryDataFavorite } from "@/app/data";
 import  PropertySummary from "@/app/ui/report/PropertySummary"
 import  PropertyStats from "@/app/ui/report/PropertyStats"
 import  PropertySales from "@/app/ui/report/PropertySales"
@@ -34,7 +34,7 @@ export default async function PropertyCard(props: {community?: string,
          const key = `Summary_${p.id}`
          return(
            <Stack key={key} id={key}>
-            <PropertySummary  property={p}/> 
+            <PropertySummary  property={p} /> 
             <PropertyStats id={p.id} />
             <PropertySales ad_id={p.id} spike={false} threshold={threshold}/>
             <Divider/>

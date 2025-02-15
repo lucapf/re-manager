@@ -7,7 +7,6 @@ import TabList from '@mui/joy/TabList';
 import Tab from '@mui/joy/Tab';
 import TabPanel from '@mui/joy/TabPanel';
 import Badge from '@mui/joy/Badge';
-import Typography from '@mui/material/Typography';
 import RegenerateReport from '@/app/ui/report/RegenerateReport'
 
 import {stringify_property_type, 
@@ -18,10 +17,9 @@ type Params = Promise<{ community: string }>
 
 export default  async function Home(context: { params: Params }){
    const p = await context.params;
-   const community = await decodeURIComponent(p.community);
+   const community = decodeURIComponent(p.community);
    const supported_types = await getSupportedTypes();
    const countByType = await getReportStatsByType(community)
-   console.log(countByType)
    const deltaperc = await getConfigIntValue('report.delta_perc') 
    const thresholdSpikes = await getConfigIntValue('report.spike_threshold_perc')
    return  (
@@ -38,13 +36,10 @@ export default  async function Home(context: { params: Params }){
          disabled = true
        }
        const tabKey = `tab_${t}`
-       console.log(`has #${t}# property ${countByType.get(t)}`)
        return (
          <Tab disabled={disabled} key={tabKey} > 
            <Badge badgeContent={number_of_elements} id={tabKey}>
-              <Typography variant="h5" gutterBottom >
                 {stringify_property_type(t)} 
-              </Typography>
             </Badge>
           </Tab>
      

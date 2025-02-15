@@ -9,9 +9,7 @@ export async function delete_ad(ad_id ){
     if (response.status === 200){
       var elementid = `Summary_${ad_id}`
       document.getElementById(elementid).style.display = "none"
-      
     }
-      console.log(`response: ${response.status}`);
     if (response.status === 200){
       toast.success('success')
     }else{
@@ -33,3 +31,19 @@ export async function set_as_favorite(ad_id ){
   return await response.json()
           
   }
+
+export async function get_labels(ad_id, setLables, base_url){
+  const url = new URL(`/manager/api/ads/labels?ad_id=${ad_id}`, base_url)
+  const labels_request= new Request(url, {method: "GET"});
+  function innerSetLabels(lbl){
+      if(lbl != ""){setLables(lbl)}
+  }
+  fetch(labels_request).then((response) =>{
+      if (response.status === 200){
+        response.json()
+        .then((lbl) => {innerSetLabels(lbl) })
+      }else{
+     toast.error("error fetching labels, pls check the logs")
+    }
+  })
+}

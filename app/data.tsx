@@ -239,7 +239,6 @@ export async function ReportSalesData(ad_id: string, spike: boolean){
                r.propertyfinder_id = $1
            and r.is_spike = $2 
          order by instance_date desc`, [ad_id.toString(), spike])
-         console.log(`ad_id: ${ad_id} spike: ${spike}`)
   await client.end()
   return values.rows;
 }
@@ -284,9 +283,8 @@ export async function getReportStatsByType(community: string){
   const values = await client.query(`
       select count(distinct p.id) as count, p.bedrooms as bedrooms   from 
       propertyfinder p join report_propertyfinder r on r.propertyfinder_id = p.id 
-      where p.community= $1  and score < 0 and user_discarded = false group by 2
+      where p.community= $1  and score > 0 and user_discarded = false group by 2
       `, [community ])
-    console.log (`found ${values.rowCount} to map for community ${community}`)
   await client.end()
   const map = new Map()
   values.rows.map(r =>  map.set(r.bedrooms, r.count))
@@ -329,8 +327,8 @@ const PROPERTY_SUMMARY_SELECT=`
        p.favorite as is_favorite
 ` 
 const PROPERTY_SUMMARY_FROM=` from propertyfinder p join report_propertyfinder r on r.propertyfinder_id = p.id `
-const PROPERTY_SUMMARY_WHERE=`where score < 0  and user_discarded=false`
-const PROPERTY_SUMMARY_ORDER_BY=` order by score asc `
+const PROPERTY_SUMMARY_WHERE=`where score > 0  and user_discarded=false`
+const PROPERTY_SUMMARY_ORDER_BY=` order by score desc`
 
 export async function relevantByCommunity( community: string){
   const client = new Client()
@@ -356,7 +354,6 @@ export async function getPropertySummaryData(community: string, bedrooms: string
       and bedrooms = $2 
       ${PROPERTY_SUMMARY_WHERE} ${PROPERTY_SUMMARY_ORDER_BY}`, 
     [community, bedrooms])
-    console.log (`getPropertySummarydata found ${values.rowCount} properties`)
   await client.end()
   return values.rows;
 }
@@ -369,10 +366,21 @@ export async function getPropertySummaryDataFavorite( ){
       ${PROPERTY_SUMMARY_FROM}
       and p.favorite = true
      ${PROPERTY_SUMMARY_WHERE}  ${PROPERTY_SUMMARY_ORDER_BY}`)
-    console.log (`Favorites found ${values.rowCount} properties`)
   await client.end()
   return values.rows;
 }
 
+export async function getPropertyLables(p_id: string): Promise<string[]|null>{
+  const client = new Client()
+  await client.connect()
+  const labels = await client.query(`select key from property_labels where propertyfinder_id=$1`, [p_id])
+  await client.end()
+  console.log(`row count: ${labels.rowCount}`)
+  if (labels.rowCount === 0 ){
+    return null
+  }
+  return labels.rows.map((r) => r.key) 
+
+}
 
 
