@@ -5,6 +5,7 @@ import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box'
 import { useState } from 'react';
 
+
 export default function SettingsSection(){
   const [logProgress, setLogProgress] = useState<string>('') 
   let is_running = false 
@@ -15,7 +16,8 @@ export default function SettingsSection(){
     }
     is_running = true
    let log = '';
-   ["Dubai Marina", "Jumeirah Lake Towers"].map((c) => {
+   
+   ["Dubai Marina", "Jumeirah Lake Towers", "Jumeirah Beach Residence"].map((c) => {
       log =`${log}\n${c}: start`
       setLogProgress(log)
       const matchReq= new Request(`/be/link/${c}`,{method: 'POST'})
